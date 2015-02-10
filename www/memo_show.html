@@ -1,0 +1,110 @@
+<!DOCTYPE html> 
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width; initial-scale=1.0">
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="css/themes/MangoApp_theme.css" />
+	<link rel="stylesheet" href="css/themes/MangoApp_theme.min.css" />
+	<link rel="stylesheet" href="css/icon.css" />
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+</head> 
+<body> 
+
+	<div data-role="page" id="page">
+
+		<div data-role="header" data-position="fixed">
+			<h4></h4>
+			<a href="#" data-rel="back" data-icon="arrow-l" class="ui-btn-left" data-rel="back">뒤로</a>
+			<a href="memo_modify.html" data-icon="arrow-l" class="ui-btn-right">수정</a>
+		</div>
+
+		<div data-role="content">	
+
+			<form>
+				<ul data-role="listview" data-inset="false">
+					<li class="ui-field-contain"> 
+						<h3><b>메모명</b></h3>
+						<p>치킨먹기</p>
+					</li>
+
+					<li class="ui-field-contain"> 
+						<h3><b>기한</b></h3>
+						<p>2015-2-24</p>
+					</li>
+
+					<li class="ui-field-contain"> 
+						<h3><b>참여자</b></h3>
+						<p>유동훈</p>
+					</li>
+
+					<li class="ui-field-contain" >
+						<h3><b>내용</b></h3>
+						<p style="white-space: normal;">메모 상세내용들 메모 상세내용들 메모 상세내용들 메모 상세내용들 메모 상세내용들 메모 상세내용들 메모 상세내용들 메모 상세내용들 메모 상세내용들 메모 상세내용들 메모 상세내용들 메모 상세내용들 </p>
+					</li>
+					       
+					<!-- <li class="ui-body ui-body-b">
+						<fieldset class="ui-grid-a">
+							<div class="ui-block-a"><button type="submit" class="ui-btn ui-corner-all ui-btn-a">확 인</button></div>
+							<div class="ui-block-b"><button type="reset" class="ui-btn ui-corner-all ui-btn-a">초기화</button></div>
+						</fieldset>
+					</li> -->
+				</ul>
+			</form>
+		</div>
+
+		<div data-role="footer">
+
+			<div data-role="popup" id="comment_modify" data-theme="a" class="ui-corner-all" data-dismissible="false">
+				<form>
+					<div style="padding:10px 20px;">
+						<h3>댓글 수정</h3>
+						<label for="comment_area">내용</label>
+						<textarea cols="40" rows="8" name="comment_area" id="comment_area"></textarea>
+						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-check ui-btn-icon-left" data-rel="back" data-transition="flow">수정</a>
+						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-back ui-btn-icon-left" data-rel="back">취소</a>
+
+					</div>
+				</form>
+			</div><!-- 댓글 popup -->
+
+			<h4>댓글</h4>
+			<ul data-role="listview" data-inset="false">
+				<li class="ui-grid-a">
+					<div class="ui-block-a" style="width:80%">
+						유동훈
+						<p style="white-space: normal;">치킨 ㄱㄱ??</p>
+					</div>
+					<div class="ui-block-b" style="width:20%">
+						<a href="#comment_modify" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-check ui-btn-icon-notext">수정</a>
+						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-delete ui-btn-icon-notext">삭제</a>
+					</div>
+				</li>
+
+				<li class="ui-grid-a">
+					<div class="ui-block-a" style="width:80%">
+						윤성빈
+						<p style="white-space: normal;">ㄴㄴ해 배불러</p>
+					</div>
+					<div class="ui-block-b" style="width:20%">
+						<a href="#" data-rel="popup" data-position-to="window" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-check ui-btn-icon-notext">수정</a>
+						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-delete ui-btn-icon-notext">삭제</a>
+					</div>
+				</li>
+
+				<li class="ui-grid-b">
+					<div class="ui-block-a" style="width:80%;">
+						<textarea name="comment_add" id="comment_add"></textarea>
+					</div>
+					<div class="ui-block-b" style="width:20%;">
+						<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-btn-b ui-icon-plus ui-btn-icon-left" style="height:20px;">추가</a>
+					</div>
+				</li>
+			</ul>
+
+		</div>
+	</div>
+
+</body>
+</html>

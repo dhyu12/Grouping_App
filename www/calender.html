@@ -1,0 +1,98 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+    <link rel="stylesheet" href="css/themes/MangoApp_theme.css" />
+    <link rel="stylesheet" href="css/themes/MangoApp_theme.min.css" />
+    <link rel="stylesheet" href="css/icon.css" />
+    <script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+    <script src="fastclick.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+    <script src="jquery.ui.touch-punch.min.js"></script>
+    <script>
+        $.mobile.defaultPageTransition   = 'none'
+        $.mobile.defaultDialogTransition = 'none'
+        $.mobile.buttonMarkup.hoverDelay = 0
+    </script>
+    
+    <script type='text/javascript' src='http://arshaw.com/js/fullcalendar-1.5.4/fullcalendar/fullcalendar.min.js'></script>
+    <link rel='stylesheet' type='text/css' href='http://arshaw.com/js/fullcalendar-1.5.4/fullcalendar/fullcalendar.css' />
+
+    <script>
+         $(document).on('pageshow','#index',function(e,data){    
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+    
+        $('#calendar').fullCalendar({
+            editable: true,
+            disableDragging: true,
+            events: [
+                {
+                    title: 'All Day Event',
+                    start: new Date(y, m, 1)
+                },
+                {
+                    title: 'Long Event',
+                    start: new Date(y, m, d-5),
+                    end: new Date(y, m, d-2)
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: new Date(y, m, d-3, 16, 0),
+                    allDay: false
+                },
+                {
+                    id: 999,
+                    title: 'Repeating Event',
+                    start: new Date(y, m, d+4, 16, 0),
+                    allDay: false
+                },
+                {
+                    title: 'Meeting',
+                    start: new Date(y, m, d, 10, 30),
+                    allDay: false
+                },
+                {
+                    title: 'Lunch',
+                    start: new Date(y, m, d, 12, 0),
+                    end: new Date(y, m, d, 14, 0),
+                    allDay: false
+                },
+                {
+                    title: 'Birthday Party',
+                    start: new Date(y, m, d+1, 19, 0),
+                    end: new Date(y, m, d+1, 22, 30),
+                    allDay: false
+                },
+                {
+                    title: 'Click for Google',
+                    start: new Date(y, m, 28),
+                    end: new Date(y, m, 29),
+                    url: 'http://google.com/'
+                }
+            ]
+        });
+    });
+
+    </script>
+</head> 
+<body> 
+    <div data-role="page" id="index">
+
+        <div data-role="header">
+            <h1>My Team</h1>
+        </div><!-- /header -->
+        
+        <div data-role="content">       
+            <div id='calendar' style="width:100%;"></div>
+        </div><!-- /content -->
+
+    </div><!-- /page -->
+</body>
+</html>

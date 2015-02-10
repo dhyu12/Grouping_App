@@ -1,0 +1,368 @@
+<!DOCTYPE html> 
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+
+	<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
+	<link rel="stylesheet" href="css/themes/MangoApp_theme.css" />
+	<link rel="stylesheet" href="css/themes/MangoApp_theme.min.css" />
+	<link rel="stylesheet" href="css/icon.css" />
+	<script src="http://code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script>
+	<script src="fastclick.js"></script>
+	<script src="http://code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+	<script src="jquery.ui.touch-punch.min.js"></script>
+	<script>
+		$.mobile.defaultPageTransition   = 'none'
+		$.mobile.defaultDialogTransition = 'none'
+		$.mobile.buttonMarkup.hoverDelay = 0
+	</script>
+
+	<!-- 메뉴 목록 drag & drop -->
+	<script>
+		$(document).bind('pageinit', function() {
+			$( "#sortable" ).sortable({ 
+				handle:".ui-icon-bars",	//아이콘(bars) touch시만 drag & drop
+				 items: 'li[id!=headermenu]' // 맨 윗줄 list-dvider는 drag & drop 금지
+				});
+			$( "#sortable" ).disableSelection();
+			// <!-- Refresh list to the end of sort to have a correct display -->
+			$( "#sortable" ).bind( "sortstop", function(event, ui) {
+				$('#sortable').listview('refresh');
+			});
+		});
+	</script>
+
+
+	<script type="text/javascript">
+		console.log('start script');
+	 // 메모 추가
+	 var nextId = 1;	// 현재 아이디
+	 var lastId = 1;	// 가장 마지막 아이디
+	 nextId *= 1;
+	 lastId *= 1;
+	 var idArray = new Array();
+	 $(document).on("pagecreate", "#tab_memo", function(){    
+	  // alert('asdf');	
+	  $(document).on("click","#add",function(){
+	  	// var content = "<div data-role='collapsible' class ='asdf' id="+nextId+"><h3>Section " + nextId + "</h3><p>test</p></div>";
+	  	// $("#collapsiblesetForFilterChildren").append(content).collapsibleset("refresh");
+	  	while(nextId <= lastId)
+	  	{
+	  		nextId++;
+	  	}
+	  	lastId = nextId;
+
+	  }); 
+	  //카테고리 삭제
+	  $(document).on("taphold",".listview",function(){
+	  	console.log('delete');
+	 		 alert(this.id); // 지울시 현재 id 표시
+	 		 $(this).remove();
+	 		 nextId = this.id;
+	 		});  
+	});
+</script>
+
+<script type="text/javascript">
+	console.log('start');
+	$('#getResult').click( function() {
+		console.log('connect');
+		$('#result').html('');
+		$.ajax({
+			url:'http://54.65.193.157:8080/add',
+			dataType:'json',
+			type:'POST',
+			data:{'m_name':$('#m_name').val(),
+			'm_manager':$('#m_manager').val(),
+			'm_date':$('#m_date').val(),
+			'm_textarea':$('#m_textarea').val()},
+			success:function(result){
+				console.log('success');
+				location.replace('tab_memo.html');
+				$('#output').val(result);
+				$('#result').html(result);
+				if(result['result']==true){
+					$('#result').html(result['msg']);
+				}
+			}
+
+		});
+	})
+</script>
+
+	<!-- <script>
+
+    $(document).on("pagecreate","#tab_memo",function(){
+      $("#tab_memo").on("swipeleft",function(){
+      	alert('asdfa');
+      	$.mobile.loadPage("#tab_chat");
+        $.mobile.changePage("#tab_chat");
+      });    
+      $("#tab_memo").on("swiperight",function(){
+      	$.mobile.loadPage("#tab_schedule");
+        $.mobile.changePage("#tab_schedule");
+      });                   
+    });
+  
+</script> -->
+
+</head> 
+<body onload="initFastButtons();"> 
+	<span id="fastclick"> 
+
+		<!-- *************************************************************************************** -->
+		<!-- **************************************해야 할 일 창************************************ -->
+		<!-- *************************************************************************************** -->
+
+		<div data-role="page" id="tab_memo">
+
+			<div data-role="panel" id="memopanel" data-position="left" data-position-fixed="true" data-display="overlay" data-theme="a">
+				<h1>설정</h1>
+				<ul data-role="listview"  data-theme="a">
+					<li><a href="mypage.html" >내 정보</a></li>
+					<li><a href="project_select.html" >프로젝트 선택창</a></li>
+					<li><a href="App_community.html">커뮤니티</a></li>
+					<li><a href="index.html" >로그아웃</a></li>
+					<li><a href="#" data-rel="close">닫기</a></li>
+				</ul>
+			</div><!-- 설정 패널창 -->
+
+			<div data-role="header"  data-theme="a" data-position="fixed" data-tap-toggle="false">
+				<a href="#memopanel" data-icon="gear">설정</a>
+				<h1>main화면</h1>
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#tab_memo" class="ui-btn-active ui-state-persist ui-btn ui-nodisc-icon ui-icon-memo ui-btn-icon-top">업무</a></li>
+						<li><a href="calender.html" rel="external" class="ui-btn ui-nodisc-icon ui-icon-schedule ui-btn-icon-top ">일정</a></li>
+						<li><a href="#tab_addfunc" class="ui-btn ui-nodisc-icon ui-icon-addfunc ui-btn-icon-top">부가기능</a></li>
+						<li><a href="#tab_chat" class="ui-btn ui-nodisc-icon ui-icon-chat ui-btn-icon-top">채팅</a></li>
+					</ul>
+				</div>
+			</div><!-- header -->
+
+			<div data-role="content" data-theme="a">	
+				<form class="ui-filterable">
+					    <input id="filterBasic-input" data-type="search">
+				</form>
+				<ul data-role="listview" data-inset="true" data-theme="a" id="sortable" data-filter="true" data-input="#filterBasic-input" data-split-icon="delete">
+					<li data-role="list-divider" id="headermenu">업 무</li>
+
+					<li class="ui-state-default"><a href="memo_show.html">
+						<span class="ui-icon ui-icon-bars ui-btn-icon-left"></span><span class="ui-li-count">D - 3</span>치킨먹기
+						<a href="#deletememo" data-rel="popup" data-position-to="window" data-transition="pop">삭제</a>
+					</li>
+
+					<li class="ui-state-default" class="list_menu" id="lol"><a href="memo_show.html">
+						<span class="ui-icon ui-icon-bars ui-btn-icon-left"></span><span class="ui-li-count">D - 3</span>롤하기
+						<a href="#" data-rel="popup" data-position-to="window" data-transition="pop">삭제</a>
+					</li>
+
+					<li class="ui-state-default"><a href="memo_show.html">
+						<span class="ui-icon ui-icon-bars ui-btn-icon-left"></span><span class="ui-li-count">D - 3</span>파업하기
+						<a href="#" data-rel="popup" data-position-to="window" data-transition="pop">삭제</a>
+					</li>
+				</ul>
+
+				<div data-role="popup" id="deletememo"  class="ui-corner-all" data-theme="a">
+					<form>
+						<div style="padding:10px 20px;">
+							<h3>삭제하시겠습니까?</h3>
+							<div style="text-align: center;">
+								<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-delete ui-btn-icon-left" data-rel="back">삭제</a>
+								<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-back ui-btn-icon-left" data-rel="back">취소</a>
+							</div>
+						</div>
+					</form>
+				</div><!-- 삭제popup -->
+			</div>
+
+			<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+
+				<div data-role="navbar">
+					<ul>
+
+						<li><a href="#addmemo" data-rel="popup" data-position-to="window" class="ui-btn ui-icon-plus ui-btn-icon-top">업무 추가</a></li>
+					</ul>
+				</div><!-- navbar -->
+			</div><!-- footer -->
+
+			<div data-role="popup" id="addmemo" data-theme="a" class="ui-corner-all" data-dismissible="false">
+				<form>
+					<div style="padding:10px 20px;">
+						<h3>업무 추가</h3>
+						<label for="memo_name">업무명</label>
+						<input type="text" name="memo_name" id="m_name" value="" data-theme="a">
+						<label for="memo_writer">담당자</label>
+						<input type="text" name="memo_writer" id="m_manager" value="" data-theme="a">
+						<label for="memo_date">마감일</label>
+						<input type="date" name="memo_date" id="m_date" data-clear-btn="true" data-theme="a">
+						<label for="memo_textarea">상세내용</label>
+						<textarea name="memo_textarea" id="m_textarea" cols="30" rows="8" data-theme="a"></textarea>
+
+							<!-- <div class="ui-grid-a">							
+								<div class="ui-block-a"><button type="submit" class="ui-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-check ui-block-a">추가</button></div>
+								<div class="ui-block-b"><button type="reset" class="i-btn ui-corner-all ui-shadow ui-btn-a ui-btn-icon-left ui-icon-check ui-block-b" data-rel="back">취소</button></div>
+							</div> -->
+							<div style="text-align: center;">
+								<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-plus ui-btn-icon-left" data-rel="back">추가</a>
+								<a href="#" class="ui-btn ui-corner-all ui-shadow ui-btn-inline ui-icon-back ui-btn-icon-left" data-rel="back">취소</a>
+							</div>
+						</div>
+					</form>
+				</div><!-- 메모 popup -->
+
+			</div><!-- page -->
+
+			<!-- *************************************************************************************** -->
+			<!-- **************************************스케줄 창**************************************** -->
+			<!-- *************************************************************************************** -->
+			<div data-role="page" id="tab_schedule">
+
+				<div data-role="panel" id="schedulepanel" data-position="left" data-position-fixed="true" data-display="overlay" data-theme="a">
+					<h1>설정</h1>
+					<ul data-role="listview"  data-theme="a">
+						<li><a href="mypage.html" >내 정보</a></li>
+						<li><a href="project_select.html" >프로젝트 선택창</a></li>
+						<li><a href="App_community.html">커뮤니티</a></li>
+						<li><a href="index.html" >로그아웃</a></li>
+						<li><a href="#" data-rel="close">닫기</a></li>
+					</ul>
+				</div><!-- 설정 패널창 -->
+
+				<div data-role="header" data-theme="a" data-position="fixed" data-tap-toggle="false">
+					<a href="#schedulepanel" data-icon="gear">설정</a>
+					<h1>일 정</h1>
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#tab_memo" class="ui-btn ui-nodisc-icon ui-icon-memo ui-btn-icon-top">업무</a></li>
+							<li><a href="#tab_schedule" class="ui-btn-active ui-state-persist ui-btn ui-nodisc-icon ui-icon-schedule ui-btn-icon-top ">일정</a></li>
+							<li><a href="#tab_addfunc" class="ui-btn ui-nodisc-icon ui-icon-addfunc ui-btn-icon-top">부가기능</a></li>
+							<li><a href="#tab_chat" class="ui-btn ui-nodisc-icon ui-icon-chat ui-btn-icon-top">채팅</a></li>
+						</ul>
+					</div>
+				</div>
+				<div data-role="content" data-theme="a">		
+					<img src="./img/calendar.png"   height=350 width=auto><p>
+				</div>
+				<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+					<h4>페이지 바닥글</h4>
+				</div>
+			</div>
+
+			<!-- *************************************************************************************** -->
+			<!-- **************************************부가기능 창************************************** -->
+			<!-- *************************************************************************************** -->
+
+			<div data-role="page" id="tab_addfunc">
+
+				<div data-role="panel" id="addfuncpanel" data-position="left" data-position-fixed="true" data-display="overlay" data-theme="a">
+					<h1>설정</h1>
+					<ul data-role="listview"  data-theme="a">
+						<li><a href="mypage.html" >내 정보</a></li>
+						<li><a href="project_select.html" >프로젝트 선택창</a></li>
+						<li><a href="App_community.html">커뮤니티</a></li>
+						<li><a href="index.html" >로그아웃</a></li>
+						<li><a href="#" data-rel="close">닫기</a></li>
+					</ul>
+				</div><!-- 설정 패널창 -->
+
+				<div data-role="header" data-theme="a" data-position="fixed" data-tap-toggle="false">
+					<a href="#addfuncpanel" data-icon="gear">설정</a>
+					<h1>부가기능</h1>
+					<div data-role="navbar">
+						<ul>
+							<li><a href="#tab_memo" class="ui-btn ui-nodisc-icon ui-icon-memo ui-btn-icon-top">업무</a></li>
+							<li><a href="#tab_schedule" class="ui-btn ui-nodisc-icon ui-icon-schedule ui-btn-icon-top ">일정</a></li>
+							<li><a href="#tab_addfunc" class="ui-btn-active ui-state-persist ui-btn ui-nodisc-icon ui-icon-addfunc ui-btn-icon-top">부가기능</a></li>
+							<li><a href="#tab_chat" class="ui-btn ui-nodisc-icon ui-icon-chat ui-btn-icon-top">채팅</a></li>
+						</ul>
+					</div>
+				</div>
+				<div data-role="content" data-theme="a">
+					<div data-role="navbar" data-theme="a">	
+						<a href="vote_list.html">투표</a>	
+						<a href="ghostleg.html">사다리</a>	
+					</div>
+				</div>
+				<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+					<h4>페이지 바닥글</h4>
+				</div>
+			</div>
+		</div>
+
+		<!-- *************************************************************************************** -->
+		<!-- ***************************************채팅 창***************************************** -->
+		<!-- *************************************************************************************** -->
+
+		<div data-role="page" id="tab_chat">
+
+			<div data-role="panel" id="chatpanel" data-position="left" data-position-fixed="true" data-display="overlay" data-theme="a">
+				<h1>설정</h1>
+				<ul data-role="listview"  data-theme="a">
+					<li><a href="mypage.html" >내 정보</a></li>
+					<li><a href="project_select.html" >프로젝트 선택창</a></li>
+					<li><a href="App_community.html">커뮤니티</a></li>
+					<li><a href="index.html" >로그아웃</a></li>
+					<li><a href="#" data-rel="close">닫기</a></li>
+				</ul>
+			</div><!-- 설정 패널창 -->
+
+			<div data-role="panel" id="memberpanel4" data-position="right" data-position-fixed="true" data-display="overlay" data-theme="a">
+				<h1>접속한 멤버</h1>
+				<ul data-role="listview"  data-theme="a">
+					<li><a href="mypage.html">유동훈</a></li>
+					<li><a href="project_select.html" >윤성빈</a></li>
+					<li><a href="#" data-rel="close">닫기</a></li>
+				</ul>
+			</div><!-- 멤버보기 패널창 -->
+
+			<!--헤더부분 -->
+			<div data-role="header" data-theme="a" data-position="fixed" data-tap-toggle="false">
+				<a href="#chatpanel" data-icon="gear">설정</a>
+				<a href="#memberpanel4" data-icon="gear">멤버보기</a>
+				<h1>main화면</h1>
+				<div data-role="navbar">
+					<ul>
+						<li><a href="#tab_memo" class="ui-btn ui-nodisc-icon ui-icon-memo ui-btn-icon-top">업무</a></li>
+						<li><a href="#tab_schedule" class="ui-btn ui-nodisc-icon ui-icon-schedule ui-btn-icon-top ">일정</a></li>
+						<li><a href="#tab_addfunc" class="ui-btn ui-nodisc-icon ui-icon-addfunc ui-btn-icon-top">부가기능</a></li>
+						<li><a href="#tab_chat" class="ui-btn-active ui-state-persist ui-btn ui-nodisc-icon ui-icon-chat ui-btn-icon-top">채팅</a></li>
+					</ul>
+				</div><!-- navbar -->
+			</div><!-- header -->
+
+			<!-- 컨텐츠 부분 -->
+			<div data-role="content" data-theme="a" id="txtarea">		
+
+				<div id="chatheight" style="width: 100%; height:95%; border: solid 1px; overflow : scroll; overflow-x : hidden;"> 
+
+					<ul id="messages"></ul>
+
+				</div>
+
+				<!-- 채팅방 높이 조절 -->
+				<script>
+					var head_height=$('[data-role=header]').outerHeight() + 90;
+					var footer_height=$('[data-role=footer]').outerHeight() + 90;
+					var content_height= $(document).height() - head_height - footer_height ;
+
+					$('[data-role=content]').css('height', content_height+'px');
+				</script>
+			</div><!-- content -->
+
+			<div data-role="footer" data-position="fixed" data-tap-toggle="false">
+				<form id="" class="ui-grid-a">
+					<div class="ui-block-a" style="width:80%;">
+						<input type="text" id="m" autocomplete="off" data-inline="true">
+					</div>
+					<div class="ui-block-b" style="width:20%;">
+						<input type="submit" class="ui-btn" id="target" value="전송" data-inline="true">
+					</div>
+				</form>
+			</div><!-- footer -->
+		</div><!-- page -->
+	</span> <!-- end fastclick -->
+</body>
+</html>
